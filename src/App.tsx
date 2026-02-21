@@ -6,7 +6,9 @@ import {Dashboard} from "./components/Dashboard";
 import { Register } from "./components/Register";
 
 function isAuthenticated() {
-  return Boolean(localStorage.getItem("token"));
+  const hasToken = Boolean(localStorage.getItem("token"));
+  const hasSessionAuth = sessionStorage.getItem("isAuthenticated") === "true";
+  return hasToken && hasSessionAuth;
 }
 
 function PrivateRoute({ children }: { children: ReactElement }) {

@@ -27,6 +27,7 @@ export function Register() {
       });
       alert("Cadastro realizado com sucesso!");
       localStorage.removeItem("token");
+      sessionStorage.removeItem("isAuthenticated");
       navigate("/", { replace: true });
     } catch (error) {
       alert("Erro ao cadastrar");
