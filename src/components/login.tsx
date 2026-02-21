@@ -3,7 +3,7 @@ import { useState } from "react";
 import api from "../services/api";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Register } from "./Register";
+
 
 export function Login() {
   const [email, setEmail] = useState("");
