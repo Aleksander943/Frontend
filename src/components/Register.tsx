@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { FormEvent } from "react";
 import { Mail, Lock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function Register() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -22,6 +23,7 @@ export function Register() {
         email,
         password,
       });
+      useNavigate()("/dashboard");
       alert("Cadastro realizado com sucesso!");
     } catch (error) {
       alert("Erro ao cadastrar");
@@ -32,7 +34,8 @@ export function Register() {
   return (
     <div className="min-h-screen bg-[#f7f7f4] px-6 py-10 font-sans">
       {/* Back button */}
-      <button className="mb-8 flex items-center gap-2 text-[#2d6a4f]">
+      <button className="mb-8 flex items-center gap-2 text-[#2d6a4f]"
+      onClick={() => window.history.back()}>
         <svg
           width="18"
           height="18"
