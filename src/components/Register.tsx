@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Mail, Lock } from "lucide-react";
-import { Form } from "react-router-dom";
 
 export function Register() {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -68,7 +67,7 @@ export function Register() {
       {/* Form */}
       <div className="flex flex-col gap-4">
         {/* Nome completo */}
-        <Form
+        <form
         onSubmit={handleSubmit}>
           
           <div className="flex flex-col gap-[6px]">
@@ -168,7 +167,7 @@ export function Register() {
               />
             </div>
           </div>
-        </Form>
+        </form>
 
         {/* Terms */}
         <div className="flex items-start gap-3 pt-1">
