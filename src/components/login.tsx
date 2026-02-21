@@ -158,7 +158,7 @@ export function Login() {
           Ainda não tem conta?{" "}
           <button
             type="button"
-            
+    
             className="text-[#2d6a4f] font-medium hover:opacity-70 transition-opacity"
           >
             Criar gratuitamente
