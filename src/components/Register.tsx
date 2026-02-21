@@ -1,16 +1,32 @@
 import axios from "axios";
+import type { FormEvent } from "react";
 import { Mail, Lock } from "lucide-react";
 
 export function Register() {
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const fd = new FormData(e.currentTarget);
-    await axios.post("https://financeiro-api-1wmw.onrender.com/users", {
-      name: fd.get("name"),
-      email: fd.get("email"),
-      password: fd.get("password"),
-    });
+    const name = String(fd.get("name") ?? "");
+    const email = String(fd.get("email") ?? "");
+    const password = String(fd.get("password") ?? "");
+
+    if (!name || !email || !password) {
+      alert("Preencha todos os campos");
+      return;
+    }
+
+    try {
+      await axios.post("https://financeiro-api-1wmw.onrender.com/users", {
+        name,
+        email,
+        password,
+      });
+      alert("Cadastro realizado com sucesso!");
+    } catch (error) {
+      alert("Erro ao cadastrar");
+      console.error(error);
+    }
   }
 
   return (
