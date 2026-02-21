@@ -26,6 +26,7 @@ export function Register() {
         password,
       });
       alert("Cadastro realizado com sucesso!");
+      localStorage.removeItem("token");
       navigate("/", { replace: true });
     } catch (error) {
       alert("Erro ao cadastrar");
