@@ -4,6 +4,8 @@ import { Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function Register() {
+  const navigate = useNavigate();
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -23,8 +25,8 @@ export function Register() {
         email,
         password,
       });
-      useNavigate()("/dashboard");
       alert("Cadastro realizado com sucesso!");
+      navigate("/", { replace: true });
     } catch (error) {
       alert("Erro ao cadastrar");
       console.error(error);
@@ -86,8 +88,7 @@ export function Register() {
       {/* Form */}
       <div className="flex flex-col gap-4">
         {/* Nome completo */}
-        <form
-        onSubmit={handleSubmit}>
+        <form id="register-form" onSubmit={handleSubmit}>
           
           <div className="flex flex-col gap-[6px]">
             <label className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#9a9a94]">
@@ -151,7 +152,7 @@ export function Register() {
                 placeholder="Mínimo 8 caracteres"
                 className="w-full rounded-xl border border-[#ebebeb] bg-white py-3 pl-10 pr-14 text-[14px] text-[#1a1a18] placeholder-[#c4c4bc] outline-none focus:border-[#2d6a4f] focus:ring-2 focus:ring-[#2d6a4f]/10"
               />
-              <button className="absolute right-[14px] text-[11px] font-semibold text-[#9a9a94]">
+              <button type="button" className="absolute right-[14px] text-[11px] font-semibold text-[#9a9a94]">
                 Ver
               </button>
             </div>
@@ -215,7 +216,7 @@ export function Register() {
         </div>
 
         {/* Submit */}
-        <button className="mt-2 w-full rounded-xl bg-[#2d6a4f] py-[14px] text-[14px] font-semibold text-white transition-all active:scale-[0.99]">
+        <button type="submit" form="register-form" className="mt-2 w-full rounded-xl bg-[#2d6a4f] py-[14px] text-[14px] font-semibold text-white transition-all active:scale-[0.99]">
           Criar conta gratuitamente
         </button>
 
@@ -229,7 +230,7 @@ export function Register() {
         {/* Login link */}
         <p className="text-center text-[13px] text-[#9a9a94]">
           Já tem conta?{" "}
-          <button className="font-semibold text-[#2d6a4f]">Entrar</button>
+          <button type="button" onClick={() => navigate("/")} className="font-semibold text-[#2d6a4f]">Entrar</button>
         </p>
       </div>
 
