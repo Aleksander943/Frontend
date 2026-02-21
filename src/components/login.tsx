@@ -23,7 +23,7 @@ export function Login() {
       const { token } = response.data;
 
       localStorage.setItem("token", token);
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
 
       console.log("login feito com sucesso");
     } catch (error) {
