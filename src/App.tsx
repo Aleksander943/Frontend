@@ -1,4 +1,5 @@
 import "./App.css";
+import { type ReactElement } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Login } from "./components/login";
 import {Dashboard} from "./components/Dashboard";
@@ -8,7 +9,7 @@ function isAuthenticated() {
   return Boolean(localStorage.getItem("token"));
 }
 
-function PrivateRoute({ children }: { children: JSX.Element }) {
+function PrivateRoute({ children }: { children: ReactElement }) {
   if (!isAuthenticated()) {
     return <Navigate to="/" replace />;
   }
@@ -16,7 +17,7 @@ function PrivateRoute({ children }: { children: JSX.Element }) {
   return children;
 }
 
-function PublicRoute({ children }: { children: JSX.Element }) {
+function PublicRoute({ children }: { children: ReactElement }) {
   if (isAuthenticated()) {
     return <Navigate to="/dashboard" replace />;
   }
