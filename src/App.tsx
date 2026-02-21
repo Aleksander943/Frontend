@@ -17,21 +17,13 @@ function PrivateRoute({ children }: { children: ReactElement }) {
   return children;
 }
 
-function PublicRoute({ children }: { children: ReactElement }) {
-  if (isAuthenticated()) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  return children;
-}
-
 function App() {
   return (
     <BrowserRouter>
       <div className="bg-gray-200 min-h-screen w-full flex items-center justify-center">
         <Routes>
-          <Route path="/" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           {/* Redireciona rotas inexistentes para o login */}
           <Route path="*" element={<Navigate to="/" replace />} />
