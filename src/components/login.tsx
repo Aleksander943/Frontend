@@ -3,6 +3,7 @@ import { useState } from "react";
 import api from "../services/api";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Register } from "./Register";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -158,6 +159,7 @@ export function Login() {
           Ainda não tem conta?{" "}
           <button
             type="button"
+            onClick={() => {navigate("/register")}}
             className="text-[#2d6a4f] font-medium hover:opacity-70 transition-opacity"
           >
             Criar gratuitamente
