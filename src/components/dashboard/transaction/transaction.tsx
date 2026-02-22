@@ -38,7 +38,7 @@ export function Transaction() {
 
   return (
     <div className="px-4 py-5">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex items-center  justify-between">
         <h2 className="text-[17px] font-bold text-[#1a1a18]">Extrato</h2>
         <button
           onClick={() => setOpen(true)}
