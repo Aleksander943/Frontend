@@ -16,9 +16,10 @@ import { Plus } from "lucide-react";
 type Props = {
   open: boolean;
   onOpenChange: (value: boolean) => void;
+  onCreated?: () => void;
 };
 
-export function AdicionarTransaction({ open, onOpenChange }: Props) {
+export function AdicionarTransaction({ open, onOpenChange, onCreated }: Props) {
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [category, setCategory] = useState("");
@@ -52,7 +53,7 @@ export function AdicionarTransaction({ open, onOpenChange }: Props) {
         setValue("");
         setCategory("");
         onOpenChange(false);
-        window.location.reload();
+        onCreated?.();
       } else {
         alert("Erro ao criar transação.");
       }
