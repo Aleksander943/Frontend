@@ -1,9 +1,9 @@
 import "./App.css";
 import { type ReactElement } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Login } from "./components/login";
-import {Dashboard} from "./components/Dashboard";
-import { Register } from "./components/Register";
+import { Login } from "./components/login/login";
+import { Dashboard } from "./components/dashboard/Dashboard";
+import { Register } from "./register/Register";
 
 function isAuthenticated() {
   const hasToken = Boolean(localStorage.getItem("token"));
@@ -27,6 +27,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+
           {/* Redireciona rotas inexistentes para o login */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
