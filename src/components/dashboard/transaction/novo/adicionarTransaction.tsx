@@ -11,6 +11,7 @@ import {
 import { Field, FieldGroup } from "../../../ui/field";
 import { Input } from "../../../ui/input";
 import { Label } from "../../../ui/label";
+import { Plus } from "lucide-react";
 
 type Props = {
   open: boolean;
@@ -65,10 +66,7 @@ export function AdicionarTransaction({ open, onOpenChange }: Props) {
       <DialogContent className="sm:max-w-sm rounded-lg border border-[#ebebeb] bg-white p-0 shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
         <DialogHeader className="border-b border-[#f5f5f3] px-6 pb-1 pt-3">
           <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-[#e8f4ef]">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2d6a4f" strokeWidth="2.2">
-              <line x1="12" y1="5" x2="12" y2="19" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
+            <Plus className="w-5 h-5"/>
           </div>
           <DialogTitle className="text-[17px] font-bold text-[#1a1a18]">Nova transação</DialogTitle>
           <DialogDescription className="text-[13px] text-[#9a9a94]">
@@ -76,7 +74,7 @@ export function AdicionarTransaction({ open, onOpenChange }: Props) {
           </DialogDescription>
         </DialogHeader>
 
-        <FieldGroup className="flex flex-col gap-4 px-6 py-5">
+        <FieldGroup className="flex flex-col gap-4 px-5 py-1">
           <Field>
             <Label className="mb-[6px] block text-[11px] font-semibold uppercase text-[#9a9a94]">Tipo</Label>
             <div className="grid grid-cols-2 gap-2 rounded-xl border border-[#ebebeb] bg-[#f7f7f4] p-1">
