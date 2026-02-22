@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AdicionarTransaction } from "./novo/adicionarTransaction";
 
 // Mapeamento de ícones e cores por categoria
@@ -10,31 +10,49 @@ const categoryMap: Record<string, { icon: string; color: string }> = {
   lazer: { icon: "🎬", color: "bg-[#e8c84a]/10" },
   transporte: { icon: "🚗", color: "bg-[#1abc9c]/10" },
   investimento: { icon: "📈", color: "bg-[#4a90d9]/10" },
+  outros: { icon: "💰", color: "bg-gray-100" },
+};
+
+type ApiTransaction = {
+  id: number;
+  description: string;
+  value: number;
+  type: string;
+  category?: string;
+  createdAt?: string;
+  date?: string;
 };
 
 export function Transaction() {
   const [open, setOpen] = useState(false);
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<ApiTransaction[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const res = await fetch("https://financeiro-api-1wmw.onrender.com/transactions", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        if (res.ok) setTransactions(data);
-      } catch (error) {
-        console.error("Erro ao buscar transações:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchTransactions = useCallback(async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch("https://financeiro-api-1wmw.onrender.com/transactions", {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
 
-    fetchTransactions();
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => ({}));
+        console.error("Erro ao buscar transações:", res.status, errorBody);
+        return;
+      }
+
+      const data = await res.json();
+      setTransactions(data);
+    } catch (error) {
+      console.error("Erro ao buscar transações:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
 
   return (
     <div className="px-4 py-5">
@@ -55,9 +73,11 @@ export function Transaction() {
         ) : transactions.length === 0 ? (
           <p className="py-10 text-center text-[13px] text-[#9a9a94]">Nenhuma transação encontrada.</p>
         ) : (
-          transactions.map((t: any, index: number) => {
+          transactions.map((t, index) => {
             const isReceita = t.type === "receita";
-            const category = categoryMap[t.category] || { icon: "💰", color: "bg-gray-100" };
+            const categoryKey = t.category || "outros";
+            const category = categoryMap[categoryKey] || categoryMap.outros;
+            const dateValue = t.date || t.createdAt;
 
             return (
               <div 
@@ -70,7 +90,10 @@ export function Transaction() {
                 <div className="min-w-0 flex-1">
                   <p className="text-[13.5px] font-medium text-[#1a1a18]">{t.description}</p>
                   <p className="text-[11px] text-[#c4c4bc]">
-                    {t.category.charAt(0).toUpperCase() + t.category.slice(1)} · {new Date(t.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
+                    {categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)}
+                    {dateValue
+                      ? ` · ${new Date(dateValue).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}`
+                      : ""}
                   </p>
                 </div>
                 <div className="shrink-0 text-right">
@@ -87,7 +110,7 @@ export function Transaction() {
         )}
       </div>
 
-      <AdicionarTransaction open={open} onOpenChange={setOpen} />
+      <AdicionarTransaction open={open} onOpenChange={setOpen} onCreated={fetchTransactions} />
     </div>
   );
 }
