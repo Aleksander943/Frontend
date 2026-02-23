@@ -23,7 +23,17 @@ type ApiTransaction = {
   date?: string;
 };
 
-export function Transaction() {
+export type ResumoData = {
+  receita: number;
+  despesa: number;
+  saldo: number;
+};
+
+type TransactionProps = {
+  onResumoChange?: (resumo: ResumoData) => void;
+};
+
+export function Transaction({ onResumoChange }: TransactionProps) {
   const [open, setOpen] = useState(false);
   const [transactions, setTransactions] = useState<ApiTransaction[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,6 +63,22 @@ export function Transaction() {
   useEffect(() => {
     fetchTransactions();
   }, [fetchTransactions]);
+
+  const resumo = transactions.reduce(
+  (acc, t) => {
+    if (t.type === "receita") {
+      acc.receita += t.value;
+    } else {
+      acc.despesa += t.value;
+    }
+    acc.saldo = acc.receita - acc.despesa; // Adicione esta linha
+    return acc;
+  },
+  { receita: 0, despesa: 0, saldo: 0 })
+
+  useEffect(() => {
+    onResumoChange?.(resumo);
+  }, [resumo, onResumoChange]);
 
   return (
     <div className="px-4 py-5">

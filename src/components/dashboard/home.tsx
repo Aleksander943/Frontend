@@ -1,39 +1,27 @@
-import { useEffect,useState } from "react";
-import type { Transaction } from "../dashboard/types/types";
+import { useEffect, useState } from "react";
+import type { ResumoData } from "./transaction/transaction";
+
+interface HomeProps {
+  resumo: ResumoData;
+}
+
+const formatCurrency = (value: number) =>
+  value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+  });
 
 
-export function Home() {
 
-  const[usuario, setUsuario] = useState<string | null> ("");
-  const[transcation, setTransaction] = useState<Transaction[]>([]);
-
-  const user = async () => {
-    const token = localStorage.getItem("token");
-
-    const response = await fetch("http://localhost:8080/transactions", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      localStorage.setItem("transaction", JSON.stringify(data));
-      setTransaction(data);
-    } else {
-      console.error("Erro ao buscar transações:", response.status);
-    }
-  };
+export function Home({ resumo }: HomeProps) {
+  const [usuario, setUsuario] = useState<string | null>("");
 
   useEffect(() => {
     const nomeSalvo = localStorage.getItem("username");
     setUsuario(nomeSalvo);
-    user()
   }, []);
 
-  console.log(transcation)
 
   return (
     <div className="relative overflow-hidden rounded-b-[28px] bg-gradient-to-br from-[#1e4d38] via-[#2d6a4f] to-[#3d8f65] px-6 pb-10 pt-6">
@@ -72,7 +60,7 @@ export function Home() {
           Saldo disponível
         </p>
         <p className="mb-2 font-serif text-[34px] font-bold leading-none tracking-tight text-white">
-          R$ 0.00
+          {formatCurrency(resumo.saldo)}
         </p>
         <span className="rounded-full bg-white/15 px-[10px] py-[3px] text-[11px] font-medium text-white/85">
           0% do rendimento poupado
@@ -89,7 +77,7 @@ export function Home() {
             <span className="text-[11px] text-white/55">Receitas</span>
           </div>
           <p className="text-[15px] font-bold tracking-tight text-white">
-            R$ 0.00
+            {formatCurrency(resumo.receita)}
           </p>
         </div>
 
@@ -101,7 +89,7 @@ export function Home() {
             <span className="text-[11px] text-white/55">Despesas</span>
           </div>
           <p className="text-[15px] font-bold tracking-tight text-white">
-            R$ 0.00
+            {formatCurrency(resumo.despesa)}
           </p>
         </div>
       </div>
