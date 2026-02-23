@@ -17,8 +17,20 @@ export function Login() {
     setError("");
     setLoading(true);
 
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedPassword = password.trim();
+
+    if (!normalizedEmail || !normalizedPassword) {
+      setError("Informe e-mail e senha.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await api.post("/login", { email, password });
+      const response = await api.post("/login", {
+        email: normalizedEmail,
+        password: normalizedPassword,
+      });
 
       const { token, user } = response.data;
 

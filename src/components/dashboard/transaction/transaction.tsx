@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { AdicionarTransaction } from "./novo/adicionarTransaction";
+import api from "../../../services/api";
 
 // Mapeamento de ícones e cores por categoria
 const categoryMap: Record<string, { icon: string; color: string }> = {
@@ -40,20 +41,9 @@ export function Transaction({ onResumoChange }: TransactionProps) {
   const [loading, setLoading] = useState(true);
 
   const fetchTransactions = useCallback(async () => {
-    const token = localStorage.getItem("token");
     try {
-      const res = await fetch("https://financeiro-api-1wmw.onrender.com/transactions", {
-        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-      });
-
-      if (!res.ok) {
-        const errorBody = await res.json().catch(() => ({}));
-        console.error("Erro ao buscar transações:", res.status, errorBody);
-        return;
-      }
-
-      const data = await res.json();
-      setTransactions(data);
+      const response = await api.get("/transactions");
+      setTransactions(response.data);
     } catch (error) {
       console.error("Erro ao buscar transações:", error);
     } finally {

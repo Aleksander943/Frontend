@@ -1,7 +1,7 @@
-import axios from "axios";
 import type { FormEvent } from "react";
 import { Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 export function Register() {
   const navigate = useNavigate();
@@ -10,9 +10,9 @@ export function Register() {
     e.preventDefault();
 
     const fd = new FormData(e.currentTarget);
-    const name = String(fd.get("name") ?? "");
-    const email = String(fd.get("email") ?? "");
-    const password = String(fd.get("password") ?? "");
+    const name = String(fd.get("name") ?? "").trim();
+    const email = String(fd.get("email") ?? "").trim().toLowerCase();
+    const password = String(fd.get("password") ?? "").trim();
 
     if (!name || !email || !password) {
       alert("Preencha todos os campos");
@@ -20,7 +20,7 @@ export function Register() {
     }
 
     try {
-      await axios.post("https://financeiro-api-1wmw.onrender.com/users", {
+      await api.post("/users", {
         name,
         email,
         password,
