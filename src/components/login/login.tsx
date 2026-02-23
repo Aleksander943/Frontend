@@ -18,7 +18,7 @@ export function Login() {
     setLoading(true);
 
     try {
-      const response = await api.post("/login", { email, password });
+      const response = await api.post("/https://financeiro-api-1wmw.onrender.com/login", { email, password });
 
       const { token, user } = response.data;
 
