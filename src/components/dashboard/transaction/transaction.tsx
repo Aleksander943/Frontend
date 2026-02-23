@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { AdicionarTransaction } from "./novo/adicionarTransaction";
 
 // Mapeamento de ícones e cores por categoria
@@ -16,7 +16,8 @@ const categoryMap: Record<string, { icon: string; color: string }> = {
 type ApiTransaction = {
   id: number;
   description: string;
-  value: number;
+  value?: number | string;
+  amount?: number | string;
   type: string;
   category?: string;
   createdAt?: string;
@@ -64,17 +65,26 @@ export function Transaction({ onResumoChange }: TransactionProps) {
     fetchTransactions();
   }, [fetchTransactions]);
 
-  const resumo = transactions.reduce(
-  (acc, t) => {
-    if (t.type === "receita") {
-      acc.receita += t.value;
-    } else {
-      acc.despesa += t.value;
-    }
-    acc.saldo = acc.receita - acc.despesa; // Adicione esta linha
-    return acc;
-  },
-  { receita: 0, despesa: 0, saldo: 0 })
+  const resumo = useMemo(
+    () =>
+      transactions.reduce(
+        (acc, t) => {
+          const transactionValue = Number(t.value ?? t.amount ?? 0);
+          const transactionType = String(t.type || "").toLowerCase();
+
+          if (transactionType === "receita") {
+            acc.receita += transactionValue;
+          } else {
+            acc.despesa += transactionValue;
+          }
+
+          acc.saldo = acc.receita - acc.despesa;
+          return acc;
+        },
+        { receita: 0, despesa: 0, saldo: 0 }
+      ),
+    [transactions]
+  );
 
   useEffect(() => {
     onResumoChange?.(resumo);
@@ -100,10 +110,11 @@ export function Transaction({ onResumoChange }: TransactionProps) {
           <p className="py-10 text-center text-[13px] text-[#9a9a94]">Nenhuma transação encontrada.</p>
         ) : (
           transactions.map((t, index) => {
-            const isReceita = t.type === "receita";
+            const isReceita = String(t.type || "").toLowerCase() === "receita";
             const categoryKey = t.category || "outros";
             const category = categoryMap[categoryKey] || categoryMap.outros;
             const dateValue = t.date || t.createdAt;
+            const transactionValue = Number(t.value ?? t.amount ?? 0);
 
             return (
               <div 
@@ -124,7 +135,7 @@ export function Transaction({ onResumoChange }: TransactionProps) {
                 </div>
                 <div className="shrink-0 text-right">
                   <p className={`text-[13.5px] font-bold ${isReceita ? "text-[#2d6a4f]" : "text-[#1a1a18]"}`}>
-                    {isReceita ? "+" : "-"} R$ {t.value.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                    {isReceita ? "+" : "-"} R$ {transactionValue.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                   </p>
                   <span className={`rounded-[10px] px-[7px] py-[2px] text-[10px] font-semibold ${isReceita ? "bg-[#e8f4ef] text-[#2d6a4f]" : "bg-[#fff5f0] text-[#e07b39]"}`}>
                     {isReceita ? "Receita" : "Despesa"}
