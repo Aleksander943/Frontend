@@ -109,15 +109,15 @@ export function Transaction({ onResumoChange }: TransactionProps) {
         <div className="grid grid-cols-3 divide-x divide-[#e7ece9]">
           <div className="min-w-0 px-2 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Entradas</p>
-            <p className="mt-1 truncate text-[16px] font-extrabold tracking-tight text-[#2b8c58] sm:text-[22px]">{formatMoney(resumo.receita)}</p>
+            <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-extrabold tracking-tight text-[#2b8c58] sm:text-[18px]">{formatMoney(resumo.receita)}</p>
           </div>
           <div className="min-w-0 px-2 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Saídas</p>
-            <p className="mt-1 truncate text-[16px] font-extrabold tracking-tight text-[#13231a] sm:text-[22px]">{formatMoney(resumo.despesa)}</p>
+            <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-extrabold tracking-tight text-[#13231a] sm:text-[18px]">{formatMoney(resumo.despesa)}</p>
           </div>
           <div className="min-w-0 px-2 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Saldo</p>
-            <p className="mt-1 truncate text-[16px] font-extrabold tracking-tight text-[#13231a] sm:text-[22px]">{formatMoney(resumo.saldo)}</p>
+            <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-extrabold tracking-tight text-[#13231a] sm:text-[18px]">{formatMoney(resumo.saldo)}</p>
           </div>
         </div>
       </div>

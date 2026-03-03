@@ -18,7 +18,7 @@ const handleResumoChange = useCallback((nextResumo: ResumoData) => {
 }, [])
 
 return (
-   <div className="h-[100dvh] w-full max-w-[440px] overflow-hidden rounded-[42px] bg-[#edf2ef] shadow-[0_20px_60px_rgba(9,30,20,0.16)]">
+   <div className="h-[100svh] w-full overflow-hidden bg-[#edf2ef] sm:h-[100dvh] sm:max-w-[440px] sm:rounded-[42px] sm:shadow-[0_20px_60px_rgba(9,30,20,0.16)]">
       <div className="flex h-full flex-col">
          <div className="min-h-0 flex-1 overflow-y-auto">
             <Home resumo={resumo} />
