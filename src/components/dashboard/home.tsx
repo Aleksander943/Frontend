@@ -34,7 +34,7 @@ export function Home({ resumo }: HomeProps) {
     : 0;
 
   return (
-    <div className="relative overflow-hidden rounded-b-[36px] bg-gradient-to-br from-[#1f6b43] via-[#14552f] to-[#0b3f24] px-5 pb-6 pt-9">
+    <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-[#1f6b43] via-[#14552f] to-[#0b3f24] px-5 pb-6 pt-9">
       <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/[0.04]" />
       <div className="pointer-events-none absolute -bottom-12 -left-8 h-40 w-40 rounded-full bg-white/[0.03]" />
 
