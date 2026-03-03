@@ -107,17 +107,17 @@ export function Transaction({ onResumoChange }: TransactionProps) {
     <div className="flex-1 overflow-y-auto px-5 pb-5 pt-4">
       <div className="mb-8 rounded-[18px] bg-white px-4 py-4 shadow-[0_3px_10px_rgba(0,0,0,0.05)]">
         <div className="grid grid-cols-3 divide-x divide-[#e7ece9]">
-          <div className="text-center">
+          <div className="min-w-0 px-2 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Entradas</p>
-            <p className="mt-1 text-[33px] font-extrabold text-[#2b8c58]">{formatMoney(resumo.receita)}</p>
+            <p className="mt-1 truncate text-[16px] font-extrabold tracking-tight text-[#2b8c58] sm:text-[22px]">{formatMoney(resumo.receita)}</p>
           </div>
-          <div className="text-center">
+          <div className="min-w-0 px-2 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Saídas</p>
-            <p className="mt-1 text-[33px] font-extrabold text-[#13231a]">{formatMoney(resumo.despesa)}</p>
+            <p className="mt-1 truncate text-[16px] font-extrabold tracking-tight text-[#13231a] sm:text-[22px]">{formatMoney(resumo.despesa)}</p>
           </div>
-          <div className="text-center">
+          <div className="min-w-0 px-2 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Saldo</p>
-            <p className="mt-1 text-[33px] font-extrabold text-[#13231a]">{formatMoney(resumo.saldo)}</p>
+            <p className="mt-1 truncate text-[16px] font-extrabold tracking-tight text-[#13231a] sm:text-[22px]">{formatMoney(resumo.saldo)}</p>
           </div>
         </div>
       </div>

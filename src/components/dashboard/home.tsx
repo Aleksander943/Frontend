@@ -43,8 +43,8 @@ export function Home({ resumo }: HomeProps) {
           <div className="flex h-11 w-11 items-center justify-center rounded-[12px] bg-[#5be093] text-xl font-black text-[#10442a]">
             {usuario?.charAt(0).toUpperCase() ?? "A"}
           </div>
-          <div>
-            <p className="text-[32px] font-semibold capitalize leading-tight text-white">{usuario ?? "aleksander"}</p>
+          <div className="min-w-0">
+            <p className="truncate text-[clamp(1.5rem,8vw,2.6rem)] font-semibold capitalize leading-tight text-white">{usuario ?? "aleksander"}</p>
             <p className="text-[11px] text-[#84d5aa]">Fevereiro de 2025</p>
           </div>
         </div>
@@ -60,8 +60,8 @@ export function Home({ resumo }: HomeProps) {
       <div className="relative mb-7">
         <p className="mb-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-[#74d8a6]">Saldo disponível</p>
         <div className="mb-4 flex items-end gap-[6px] text-white">
-          <span className="mb-[8px] text-[32px] font-bold">R$</span>
-          <span className="text-[54px] font-extrabold leading-none tracking-[-1px]">{formatAmount(resumo.saldo)}</span>
+          <span className="mb-[8px] whitespace-nowrap text-[clamp(1.8rem,7vw,2.2rem)] font-bold">R$</span>
+          <span className="min-w-0 truncate whitespace-nowrap text-[clamp(2.6rem,12vw,4rem)] font-extrabold leading-none tracking-[-1px]">{formatAmount(resumo.saldo)}</span>
         </div>
 
         <div className="inline-flex items-center gap-2 rounded-[999px] border border-[#4dd78f]/30 bg-[#1f7b4d]/55 px-4 py-1.5">
@@ -71,21 +71,21 @@ export function Home({ resumo }: HomeProps) {
       </div>
 
       <div className="relative grid grid-cols-2 gap-4">
-        <div className="rounded-[20px] border border-white/10 bg-white/[0.09] p-4">
+        <div className="min-w-0 rounded-[20px] border border-white/10 bg-white/[0.09] p-4">
           <div className="mb-3 flex items-center gap-3">
             <span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-[#2e8d59]/70 text-sm">💚</span>
             <span className="text-[12px] font-medium text-[#a6d7bc]">Receitas</span>
           </div>
-          <p className="text-[40px] font-extrabold leading-none tracking-tight text-white">{formatAmount(resumo.receita)}</p>
+          <p className="truncate whitespace-nowrap text-[clamp(1.85rem,8.3vw,2.9rem)] font-extrabold leading-none tracking-tight text-white">{formatAmount(resumo.receita)}</p>
           <p className="mt-2 text-[11px] font-semibold text-[#6fe2a8]">↑ Este mês</p>
         </div>
 
-        <div className="rounded-[20px] border border-white/10 bg-white/[0.09] p-4">
+        <div className="min-w-0 rounded-[20px] border border-white/10 bg-white/[0.09] p-4">
           <div className="mb-3 flex items-center gap-3">
             <span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-[#7b7f2b]/60 text-sm">🟡</span>
             <span className="text-[12px] font-medium text-[#a6d7bc]">Despesas</span>
           </div>
-          <p className="text-[40px] font-extrabold leading-none tracking-tight text-white">{formatAmount(resumo.despesa)}</p>
+          <p className="truncate whitespace-nowrap text-[clamp(1.85rem,8.3vw,2.9rem)] font-extrabold leading-none tracking-tight text-white">{formatAmount(resumo.despesa)}</p>
           <p className="mt-2 text-[11px] font-semibold text-[#f0be43]">= Balanceado</p>
         </div>
       </div>
