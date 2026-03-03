@@ -35,6 +35,16 @@ type TransactionProps = {
   onResumoChange?: (resumo: ResumoData) => void;
 };
 
+const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"];
+
+const formatMoney = (value: number) =>
+  value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
 export function Transaction({ onResumoChange }: TransactionProps) {
   const [open, setOpen] = useState(false);
   const [transactions, setTransactions] = useState<ApiTransaction[]>([]);
@@ -80,62 +90,126 @@ export function Transaction({ onResumoChange }: TransactionProps) {
     onResumoChange?.(resumo);
   }, [resumo, onResumoChange]);
 
+  const grouped = useMemo(() => {
+    const groups: Record<string, ApiTransaction[]> = {};
+    for (const t of transactions) {
+      const raw = t.date || t.createdAt;
+      const key = raw
+        ? new Date(raw).toLocaleDateString("pt-BR", { day: "2-digit", month: "long" })
+        : "Sem data";
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(t);
+    }
+    return groups;
+  }, [transactions]);
+
   return (
-    <div className="px-4 py-5">
-      <div className="mb-4 flex items-center  justify-between">
-        <h2 className="text-[17px] font-bold text-[#1a1a18]">Extrato</h2>
+    <div className="flex-1 overflow-y-auto px-5 pb-5 pt-4">
+      <div className="mb-8 rounded-[18px] bg-white px-4 py-4 shadow-[0_3px_10px_rgba(0,0,0,0.05)]">
+        <div className="grid grid-cols-3 divide-x divide-[#e7ece9]">
+          <div className="text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Entradas</p>
+            <p className="mt-1 text-[33px] font-extrabold text-[#2b8c58]">{formatMoney(resumo.receita)}</p>
+          </div>
+          <div className="text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Saídas</p>
+            <p className="mt-1 text-[33px] font-extrabold text-[#13231a]">{formatMoney(resumo.despesa)}</p>
+          </div>
+          <div className="text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Saldo</p>
+            <p className="mt-1 text-[33px] font-extrabold text-[#13231a]">{formatMoney(resumo.saldo)}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-[18px] font-extrabold tracking-tight text-[#13231a]">Extrato</h2>
         <button
           onClick={() => setOpen(true)}
-          className="flex items-center gap-1 rounded-full bg-[#2d6a4f] px-3 py-[6px] text-[12px] font-semibold text-white"
+          className="flex items-center gap-[6px] rounded-[14px] bg-[#1e6a43] px-4 py-2 text-[12px] font-semibold text-white"
         >
+          <span className="text-[16px] leading-none">+</span>
           Novo
         </button>
       </div>
 
-      {/* List */}
-      <div className="rounded-[20px] border border-[#ebebeb] bg-white px-4">
-        {loading ? (
-          <p className="py-10 text-center text-[13px] text-[#9a9a94]">Carregando...</p>
-        ) : transactions.length === 0 ? (
-          <p className="py-10 text-center text-[13px] text-[#9a9a94]">Nenhuma transação encontrada.</p>
-        ) : (
-          transactions.map((t, index) => {
-            const isReceita = String(t.type || "").toLowerCase() === "receita";
-            const categoryKey = t.category || "outros";
-            const category = categoryMap[categoryKey] || categoryMap.outros;
-            const dateValue = t.date || t.createdAt;
-            const transactionValue = Number(t.value ?? t.amount ?? 0);
-
-            return (
-              <div 
-                key={t.id} 
-                className={`flex items-center gap-3 py-[14px] ${index !== transactions.length - 1 ? "border-b border-[#f5f5f3]" : ""}`}
-              >
-                <div className={`flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-[12px] ${category.color} text-[19px]`}>
-                  {category.icon}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[13.5px] font-medium text-[#1a1a18]">{t.description}</p>
-                  <p className="text-[11px] text-[#c4c4bc]">
-                    {categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)}
-                    {dateValue
-                      ? ` · ${new Date(dateValue).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}`
-                      : ""}
-                  </p>
-                </div>
-                <div className="shrink-0 text-right">
-                  <p className={`text-[13.5px] font-bold ${isReceita ? "text-[#2d6a4f]" : "text-[#1a1a18]"}`}>
-                    {isReceita ? "+" : "-"} R$ {transactionValue.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
-                  </p>
-                  <span className={`rounded-[10px] px-[7px] py-[2px] text-[10px] font-semibold ${isReceita ? "bg-[#e8f4ef] text-[#2d6a4f]" : "bg-[#fff5f0] text-[#e07b39]"}`}>
-                    {isReceita ? "Receita" : "Despesa"}
-                  </span>
-                </div>
-              </div>
-            );
-          })
-        )}
+      <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
+        {months.map((month) => {
+          const active = month === "Fev";
+          return (
+            <button
+              key={month}
+              type="button"
+              className={`min-w-[58px] rounded-full border px-4 py-1.5 text-[12px] font-medium ${
+                active
+                  ? "border-[#1e6a43] bg-[#1e6a43] text-white"
+                  : "border-[#d8e1dc] bg-[#edf2ef] text-[#5f7569]"
+              }`}
+            >
+              {month}
+            </button>
+          );
+        })}
       </div>
+
+      {loading ? (
+        <div className="flex flex-col items-center gap-3 py-16">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#d4e6d9] border-t-[#1e5c3a]" />
+          <p className="text-[12px] text-[#8aa898]">Carregando...</p>
+        </div>
+      ) : transactions.length === 0 ? (
+        <div className="flex flex-col items-center gap-3 py-16 text-center">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#edf7f2] text-2xl">💸</div>
+          <p className="text-[14px] font-semibold text-[#0d1f14]">Nenhuma transação ainda</p>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-5">
+          {Object.entries(grouped).map(([date, items]) => (
+            <div key={date}>
+              <div className="mb-3 px-1">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#8aa898]">{String(date).toUpperCase()}</span>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                {items.map((t) => {
+                  const isReceita = String(t.type || "").toLowerCase() === "receita";
+                  const categoryKey = (t.category || "outros").toLowerCase();
+                  const category = categoryMap[categoryKey] || categoryMap.outros;
+                  const dateValue = t.date || t.createdAt;
+                  const transactionValue = Number(t.value ?? t.amount ?? 0);
+
+                  return (
+                    <div key={t.id} className="flex items-center gap-3 rounded-[18px] bg-white px-4 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
+                      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[14px] ${category.color} text-[19px]`}>
+                        {category.icon}
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-[14px] font-semibold text-[#16271e]">{t.description}</p>
+                        <p className="mt-[2px] text-[11px] text-[#8aa898]">
+                          {categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)}
+                          {dateValue ? ` • ${new Date(dateValue).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}` : ""}
+                        </p>
+                      </div>
+
+                      <div className="shrink-0 text-right">
+                        <p className={`text-[14px] font-bold tabular-nums tracking-tight ${isReceita ? "text-[#2a8a55]" : "text-[#101d16]"}`}>
+                          {isReceita ? "+" : "-"} R$ {transactionValue.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                        </p>
+                        <span className={`mt-[4px] inline-block rounded-[8px] px-[8px] py-[2px] text-[10px] font-semibold ${
+                          isReceita ? "bg-[#d4f5e4] text-[#1e5c3a]" : "bg-[#fff0e8] text-[#d64747]"
+                        }`}>
+                          {isReceita ? "Receita" : "Despesa"}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <AdicionarTransaction open={open} onOpenChange={setOpen} onCreated={fetchTransactions} />
     </div>

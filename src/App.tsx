@@ -22,7 +22,7 @@ function PrivateRoute({ children }: { children: ReactElement }) {
 function App() {
   return (
     <BrowserRouter>
-      <div className="bg-gray-200 min-h-screen w-full flex items-center justify-center">
+      <div className="min-h-screen w-full bg-[#d7ddda] flex items-center justify-center py-4">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
