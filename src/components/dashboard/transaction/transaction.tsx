@@ -104,7 +104,7 @@ export function Transaction({ onResumoChange }: TransactionProps) {
   }, [transactions]);
 
   return (
-    <div className="flex-1 overflow-y-auto px-5 pb-5 pt-4">
+    <div className="px-5 pb-5 pt-4">
       <div className="mb-8 rounded-[18px] bg-white px-4 py-4 shadow-[0_3px_10px_rgba(0,0,0,0.05)]">
         <div className="grid grid-cols-3 divide-x divide-[#e7ece9]">
           <div className="min-w-0 px-2 text-center">

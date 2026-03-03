@@ -18,10 +18,12 @@ const handleResumoChange = useCallback((nextResumo: ResumoData) => {
 }, [])
 
 return (
-   <div className="h-[94vh] max-h-[1040px] w-[calc(100%-1.25rem)] max-w-[440px] overflow-hidden rounded-[42px] bg-[#edf2ef] shadow-[0_20px_60px_rgba(9,30,20,0.16)]">
+   <div className="h-[calc(100dvh-1rem)] w-[calc(100%-1.25rem)] max-w-[440px] overflow-hidden rounded-[42px] bg-[#edf2ef] shadow-[0_20px_60px_rgba(9,30,20,0.16)]">
       <div className="flex h-full flex-col">
-         <Home resumo={resumo} />
-         <Transaction onResumoChange={handleResumoChange} />
+         <div className="min-h-0 flex-1 overflow-y-auto">
+            <Home resumo={resumo} />
+            <Transaction onResumoChange={handleResumoChange} />
+         </div>
          <NavBar />
       </div>
    </div>
