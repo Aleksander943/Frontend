@@ -104,25 +104,8 @@ export function Transaction({ onResumoChange }: TransactionProps) {
   }, [transactions]);
 
   return (
-    <div className="rounded-[24px] bg-white px-5 pb-5 pt-4 shadow-lg">
-      <div className="mb-8 rounded-[18px] bg-[#f5f8f6] px-4 py-4 shadow-[0_3px_10px_rgba(0,0,0,0.05)]">
-        <div className="grid grid-cols-3 divide-x divide-[#e7ece9]">
-          <div className="min-w-0 px-2 text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Entradas</p>
-            <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-extrabold tracking-tight text-[#2b8c58] sm:text-[18px]">{formatMoney(resumo.receita)}</p>
-          </div>
-          <div className="min-w-0 px-2 text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Saídas</p>
-            <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-extrabold tracking-tight text-[#13231a] sm:text-[18px]">{formatMoney(resumo.despesa)}</p>
-          </div>
-          <div className="min-w-0 px-2 text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-[#8aa898]">Saldo</p>
-            <p className="mt-1 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-extrabold tracking-tight text-[#13231a] sm:text-[18px]">{formatMoney(resumo.saldo)}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="mb-4 flex items-center justify-between">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-[24px] bg-white px-4 pb-4 pt-3 shadow-lg">
+      <div className="mb-3 flex items-center justify-between">
         <h2 className="text-[18px] font-extrabold tracking-tight text-[#13231a]">Extrato</h2>
         <button
           onClick={() => setOpen(true)}
@@ -133,7 +116,7 @@ export function Transaction({ onResumoChange }: TransactionProps) {
         </button>
       </div>
 
-      <div className="mb-6 flex gap-2 overflow-x-auto pb-1">
+      <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
         {months.map((month) => {
           const active = month === "Fev";
           return (
@@ -152,25 +135,26 @@ export function Transaction({ onResumoChange }: TransactionProps) {
         })}
       </div>
 
+      <div className="min-h-0 flex-1 overflow-hidden">
       {loading ? (
-        <div className="flex flex-col items-center gap-3 py-16">
+        <div className="flex h-full flex-col items-center justify-center gap-3 py-8">
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#d4e6d9] border-t-[#1e5c3a]" />
           <p className="text-[12px] text-[#8aa898]">Carregando...</p>
         </div>
       ) : transactions.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 py-16 text-center">
+        <div className="flex h-full flex-col items-center justify-center gap-3 py-8 text-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#edf7f2] text-2xl">💸</div>
           <p className="text-[14px] font-semibold text-[#0d1f14]">Nenhuma transação ainda</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-5">
+        <div className="h-full space-y-4 overflow-hidden">
           {Object.entries(grouped).map(([date, items]) => (
             <div key={date}>
-              <div className="mb-3 px-1">
+              <div className="mb-2 px-1">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#8aa898]">{String(date).toUpperCase()}</span>
               </div>
 
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2.5">
                 {items.map((t) => {
                   const isReceita = String(t.type || "").toLowerCase() === "receita";
                   const categoryKey = (t.category || "outros").toLowerCase();
@@ -179,7 +163,7 @@ export function Transaction({ onResumoChange }: TransactionProps) {
                   const transactionValue = Number(t.value ?? t.amount ?? 0);
 
                   return (
-                    <div key={t.id} className="flex items-center gap-3 rounded-[18px] bg-white px-4 py-4 shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
+                    <div key={t.id} className="flex items-center gap-3 rounded-[18px] bg-white px-4 py-3 shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
                       <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[14px] ${category.color} text-[19px]`}>
                         {category.icon}
                       </div>
@@ -210,6 +194,7 @@ export function Transaction({ onResumoChange }: TransactionProps) {
           ))}
         </div>
       )}
+      </div>
 
       <AdicionarTransaction open={open} onOpenChange={setOpen} onCreated={fetchTransactions} />
     </div>
