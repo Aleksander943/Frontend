@@ -1,7 +1,7 @@
 import type { FormEvent } from "react";
 import { Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+import api from "../../services/api";
 
 export function Register() {
   const navigate = useNavigate();

@@ -21,8 +21,8 @@ export function Dashboard() {
       <div className="h-[100svh] w-full overflow-hidden bg-[#edf2ef] sm:h-[100dvh] sm:max-w-[440px] sm:rounded-[42px] sm:shadow-[0_20px_60px_rgba(9,30,20,0.16)] p-2">
          <div className="flex h-full flex-col overflow-hidden">
             <main className="min-h-0 flex-1 p-1.5 pb-1">
-               <div className="grid h-full min-h-0 grid-rows-[46%_54%] gap-4">
-                  <section className="min-h-0 overflow-hidden">
+               <div className="grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-4 sm:grid-rows-[46%_54%]">
+                  <section className="min-h-0 overflow-visible sm:overflow-hidden">
                      <Home resumo={resumo} />
                   </section>
                   <section className="min-h-0 overflow-hidden">
