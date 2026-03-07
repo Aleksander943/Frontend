@@ -1,5 +1,5 @@
 import type { FormEvent } from "react";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, ChevronLeft, User, Check, ChartLine } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
@@ -40,18 +40,7 @@ export function Register() {
       {/* Back button */}
       <button className="mb-8 flex items-center gap-2 text-[#2d6a4f]"
       onClick={() => window.history.back()}>
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>
+        <ChevronLeft />
         <span className="text-[13px] font-semibold">Voltar</span>
       </button>
 
@@ -59,19 +48,7 @@ export function Register() {
       <div className="mb-8">
         <div className="mb-4 flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#2d6a4f]">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M3 3v18h18" />
-              <path d="m7 16 4-4 4 4 4-4" />
-            </svg>
+             <ChartLine className="w-4 h-4 text-white" />
           </div>
           <span className="text-[15px] font-semibold tracking-tight text-[#1a1a18]">
             Finly
@@ -98,19 +75,7 @@ export function Register() {
             </label>
             <div className="relative flex items-center">
               <span className="absolute left-[14px] text-[#c4c4bc]">
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
+                <User className="w-4 h-4" />
               </span>
               <input
               name="name"
@@ -158,18 +123,6 @@ export function Register() {
                 Ver
               </button>
             </div>
-
-            {/* Password strength */}
-            <div className="flex gap-[5px] pt-1">
-              <div className="h-[3px] flex-1 rounded-full bg-[#2d6a4f]" />
-              <div className="h-[3px] flex-1 rounded-full bg-[#2d6a4f]" />
-              <div className="h-[3px] flex-1 rounded-full bg-[#ebebeb]" />
-              <div className="h-[3px] flex-1 rounded-full bg-[#ebebeb]" />
-            </div>
-            <p className="text-[11px] text-[#9a9a94]">
-              Força da senha:{" "}
-              <span className="font-semibold text-[#2d6a4f]">Média</span>
-            </p>
           </div>
 
           {/* Confirmar senha */}
@@ -194,18 +147,7 @@ export function Register() {
         {/* Terms */}
         <div className="flex items-start gap-3 pt-1">
           <div className="mt-[2px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border-2 border-[#2d6a4f] bg-[#2d6a4f]">
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+           <Check  className="text-white"/>
           </div>
           <p className="text-[12px] leading-relaxed text-[#9a9a94]">
             Concordo com os{" "}

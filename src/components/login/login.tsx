@@ -92,29 +92,7 @@ export function Login() {
             <p className="text-sm text-red-700 font-medium">⚠️ {error}</p>
           </div>
         )}
-
-        {/* Mini stats */}
-        <div className="grid grid-cols-3 bg-[#f7f7f4] rounded-xl p-3 mb-6">
-          <div className="text-center">
-            <p className="text-xs font-medium text-[#1a1a18]">R$ 4.280</p>
-            <p className="text-[10px] text-[#c4c4bc] uppercase tracking-wider mt-0.5">
-              Saldo
-            </p>
-          </div>
-          <div className="text-center border-x border-[#ebebeb]">
-            <p className="text-xs font-medium text-[#2d6a4f]">−12%</p>
-            <p className="text-[10px] text-[#c4c4bc] uppercase tracking-wider mt-0.5">
-              Gastos
-            </p>
-          </div>
-          <div className="text-center">
-            <p className="text-xs font-medium text-[#1a1a18]">8</p>
-            <p className="text-[10px] text-[#c4c4bc] uppercase tracking-wider mt-0.5">
-              Metas
-            </p>
-          </div>
-        </div>
-
+        
         {/* Form — mantendo sua estrutura original */}
         <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
           {/* Email */}

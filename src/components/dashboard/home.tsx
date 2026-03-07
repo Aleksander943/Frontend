@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { ResumoData } from "./transaction/transaction";
+import { useNavigate } from "react-router-dom";
 
 interface HomeProps {
   resumo: ResumoData;
@@ -15,6 +16,7 @@ const formatAmount = (value: number) =>
 
 export function Home({ resumo }: HomeProps) {
   const [usuario, setUsuario] = useState<string | null>("");
+  const navigate = useNavigate()
 
   useEffect(() => {
     const nomeSalvo = localStorage.getItem("username");
@@ -29,6 +31,11 @@ export function Home({ resumo }: HomeProps) {
   const totalMovimentado = resumo.receita + resumo.despesa;
   const receitaPercent = totalMovimentado > 0 ? Math.round((resumo.receita / totalMovimentado) * 100) : 0;
   const despesaPercent = totalMovimentado > 0 ? Math.round((resumo.despesa / totalMovimentado) * 100) : 0;
+
+  const logout = () =>{
+    localStorage.removeItem('token');
+    navigate("/")
+  }
 
   return (
     <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-br from-[#1f6b43] via-[#14552f] to-[#0b3f24] px-4 py-4 shadow-lg sm:p-5">
@@ -46,11 +53,10 @@ export function Home({ resumo }: HomeProps) {
           </div>
         </div>
 
-        <button className="relative flex h-8 w-8 items-center justify-center rounded-[10px] border border-white/15 bg-white/[0.08] text-white/80 sm:h-9 sm:w-9 sm:rounded-[12px]">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-          </svg>
+        <button className="relative flex h-8 w-19 items-center justify-center rounded-[10px] border border-white/15 bg-white/[0.08] text-white/80"
+        onClick={logout}
+        >
+          <p className="font-bold">Logout</p>
         </button>
       </div>
 
