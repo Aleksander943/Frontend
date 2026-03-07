@@ -1,22 +1,14 @@
 
-const deletarTransacao = async (id: string, onSucess: () => void) =>{ 
-        try{
-            const token = localStorage.getItem('token')
+import api from "../../../../services/api";
 
-            const resp = await fetch(`http://localhost:8080/transaction/${id}`,{
-                method: 'DELETE',
-                headers:{
-                    Authorization: `Bearer ${token}`,
-                    'content-type': 'application/json',
-                }
-            })
-            if(resp.ok){
-                alert("Deletado com sucesso")
-                onSucess()
-            }
-        } catch {
-            alert("Erro ao deletar")
-        }
-    };
+const deletarTransacao = async (id: string, onSucess: () => void) => {
+  try {
+    await api.delete(`/transaction/${id}`);
+    alert("Deletado com sucesso");
+    onSucess();
+  } catch {
+    alert("Erro ao deletar");
+  }
+};
 
 export default deletarTransacao;
