@@ -56,7 +56,7 @@ export function Home({ resumo }: HomeProps) {
         <button className="relative flex h-8 w-19 items-center justify-center rounded-[10px] border border-white/15 bg-white/[0.08] text-white/80"
         onClick={logout}
         >
-          <p className="font-bold">Logout</p>
+          <p className="font-bold">Sair</p>
         </button>
       </div>
 
